@@ -1,0 +1,93 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <script language="javascript" type="text/javascript">
+        var continueflg;
+        var players;
+        var playerturn;
+        var count;
+        var turncount;
+        var answerstr;
+
+        function disabledBtn() {
+            answerbtn = document.getElementById("answerbtn");
+            answerbtn.disabled = "disabled";
+        }
+
+        function onStartBtnClick() {
+            playerstxtbox = document.getElementById("id_players");
+            players = parseInt(playerstxtbox.value);
+
+            checkmessage = document.getElementById("checkmessage");
+            if (isNaN(players) || players < 1) {
+                checkmessage.innerHTML = '1以上の整数を入力してください';
+                playerstxtbox.focus();
+                return;
+            } else {
+                checkmessage.innerHTML = '';
+            }
+
+            continueflg = 0;
+            playerturn = 1 + Math.floor(Math.random() * players);
+            count = 1;
+            turncount = 1;
+
+            strplayers = document.getElementById("strplayers");
+            strplayerturn = document.getElementById("strplayerturn");
+            strplayers.innerHTML = players;
+            strplayerturn.innerHTML = playerturn;
+
+            message = document.getElementById("message");
+            textarea1 = document.getElementById("textarea1");
+            textarea1.value = '';
+            document.getElementById("answerstr").value = '';
+            answerstr = '';
+            answerbtn = document.getElementById("answerbtn");
+            script = document.createElement("script");
+            script.src = "./fizzbuzzGame2.js";
+            document.body.appendChild(script);
+        }
+
+        function onAnswerBtnClick() {
+            message = document.getElementById("message");
+            textarea1 = document.getElementById("textarea1");
+            answer = document.getElementById("answerstr");
+            answerstr = answer.value
+            answerbtn = document.getElementById("answerbtn");
+            script = document.createElement("script");
+            script.src = "./fizzbuzzGame2.js";
+            document.body.appendChild(script);
+        }
+    </script>
+</head>
+<body onload="disabledBtn()">
+<h1>FizzBuzzGame(JavaScriptバージョン)</h1>
+<p>最初のプレイヤーから順に、1からの数字を発言していくゲームです。<br>（※本プログラムでは1から100まで。）<br>
+ただし、<br>(1) 3で割り切れる場合は「Fizz」<br>(2) 5で割り切れる場合は「Buzz」<br>
+(3) 3でも5でも割り切れる場合は「FizzBuzz」<br>を数字の代わりに発言しなければなりません。</p>
+<p>プレイ人数分の1回、あなたの順番が回ってきます。<br>
+ゲームを開始してあなたの順番が回ってきたら、<br>
+前の発言者の次の数字、<br>
+または前の発言者の次の数字が(1)～(3)の条件に合う場合はその文字列を<br>
+入力してください。</p>
+<p>【例】1の場合「1」、2の場合「2」、3の場合「Fizz」、5の場合「Buzz」、15の場合「FizzBuzz」</p>
+<input type="hidden" name="continue" value="0">
+プレイ人数：
+<input type="text" name="players" id="id_players" value="" onfocus="this.select();">
+<input type="button" value="ゲーム開始" onClick="onStartBtnClick()">
+<span id="checkmessage" style="color:red"></span>
+<br><br>
+<table><tr><td>
+※上から下へ発言を表示。[]内の数字は発言順番。<br>
+<textarea cols="50" rows="30" name="textarea1" id="textarea1"></textarea>
+</td>
+<td>
+あなたの順番：<span id="strplayers">&nbsp;</span>人中 <span id="strplayerturn">&nbsp;</span>番目<br>
+<span id="message"></span><br>
+回答：
+<input type="text" id="answerstr" onfocus="this.select();">
+<input type="button" id="answerbtn" value="回答する" onClick="onAnswerBtnClick()">
+</td></tr></tr></table>
+</body>
+</html>
